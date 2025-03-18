@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "target": "ES2019",
+    "lib": ["ES2019"],
+    "strict": true,
+    "declaration": false,
+    "sourceMap": false,
+    "noImplicitThis": true,
+    "baseUrl": "./src",
+    "types": ["@ci-types/cjs"],
+    "noImplicitAny": true,
+    "removeComments": true,
+    "noFallthroughCasesInSwitch": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "resolveJsonModule": true,
+    "moduleResolution": "node"
+  },
+  "ts-node": {
+    "transpileOnly": true,
+    "moduleTypes": {
+      "webpack.config.ts": "cjs",
+      "webpack-config-scripts/**/*": "cjs"
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
+}

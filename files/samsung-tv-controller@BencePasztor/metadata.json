@@ -1,0 +1,8 @@
+{
+    "uuid": "samsung-tv-controller@BencePasztor",
+    "name": "Remote Control applet",
+    "description": "A simple applet really",
+    "version": "1.0",
+    "max-instances": 1,
+    "icon": "birdie"
+  }
