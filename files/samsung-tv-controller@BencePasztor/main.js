@@ -49,11 +49,11 @@ class MainApplet extends IconApplet {
         this.orientation = orientation;
         this.panelHeight = panelHeight;
         this.instanceId = instanceId;
-        this.set_applet_icon_name("screen");
-        this.set_applet_tooltip("Click here to kill a window");
+        this.set_applet_icon_name("cs-screen");
+        this.set_applet_tooltip('Click here to change the tooltip to "Hello world!"');
     }
     on_applet_clicked(_) {
-        this.set_applet_tooltip("tooltip changed");
+        this.set_applet_tooltip("Hello world!");
         return false;
     }
 }
