@@ -16,25 +16,25 @@ export class Settings {
     /** The state of settings */
     public state: State = {}
     /** A function that's called when the settings change */
-    public handle_on_settings_changed?: (arg?: any) => void
+    public handleOnSettingsChanged?: (arg?: any) => void
 
     constructor(uuid: Metadata["uuid"], instanceId: number) {
         this.settings = new AppletSettings(this.state, uuid, instanceId)
-        this.bind_settings()
+        this.bindSettings()
     }
 
     /** Binds the settings properties */
-    private bind_settings() {
-        this.settings.bindProperty(BindingDirection.IN, 'host', 'host', (arg) => this.on_settings_changed(arg), "");
-        this.settings.bindProperty(BindingDirection.IN, 'port', 'port', (arg) => this.on_settings_changed(arg), "8002");
-        this.settings.bindProperty(BindingDirection.IN, 'name', 'name', (arg) => this.on_settings_changed(arg), "SamsungTvRemote");
-        this.settings.bindProperty(BindingDirection.BIDIRECTIONAL, 'token', 'token', (arg) => this.on_settings_changed(arg), "");
+    private bindSettings() {
+        this.settings.bindProperty(BindingDirection.IN, 'host', 'host', (arg) => this.onSettingsChanged(arg), "");
+        this.settings.bindProperty(BindingDirection.IN, 'port', 'port', (arg) => this.onSettingsChanged(arg), "8002");
+        this.settings.bindProperty(BindingDirection.IN, 'name', 'name', (arg) => this.onSettingsChanged(arg), "SamsungTvRemote");
+        this.settings.bindProperty(BindingDirection.BIDIRECTIONAL, 'token', 'token', (arg) => this.onSettingsChanged(arg), "");
     }
 
     /** Callback function that's called when the settings change */
-    private on_settings_changed(arg: any) {
-        if (typeof this.handle_on_settings_changed === "function") {
-            this.handle_on_settings_changed(arg)
+    private onSettingsChanged(arg: any) {
+        if (typeof this.handleOnSettingsChanged === "function") {
+            this.handleOnSettingsChanged(arg)
         }
     }
 }
