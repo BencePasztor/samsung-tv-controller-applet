@@ -1,0 +1,47 @@
+{
+    "layout": {
+        "type": "layout",
+        "pages": [
+            "connection-page"
+        ],
+        "connection-page": {
+            "type": "page",
+            "title": "Connection",
+            "sections": [
+                "connection-section"
+            ]
+        },
+        "connection-section": {
+            "type": "section",
+            "title": "Connection Details",
+            "keys": [
+                "host",
+                "port",
+                "name",
+                "token"
+            ]
+        }
+    },
+    "host": {
+        "type": "entry",
+        "default": "",
+        "description": "Host IP (*)",
+        "tooltip": "The IP address of your television."
+    },
+    "port": {
+        "type": "entry",
+        "default": "8002",
+        "description": "Port (*)",
+        "tooltip": "The port number for your connection. (default is 8002)"
+    },
+    "name": {
+        "type": "entry",
+        "default": "SamsungTvRemote",
+        "description": "Name (*)"
+    },
+    "token": {
+        "type": "entry",
+        "default": "",
+        "description": "Token"
+    }
+}

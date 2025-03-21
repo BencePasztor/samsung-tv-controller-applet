@@ -35,12 +35,39 @@ var applet;
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
+// ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   MainApplet: () => (/* binding */ MainApplet),
-/* harmony export */   main: () => (/* binding */ main)
-/* harmony export */ });
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, {
+  MainApplet: () => (/* binding */ MainApplet),
+  main: () => (/* binding */ main)
+});
+
+;// ./src/settings.ts
+const { AppletSettings, BindingDirection } = imports.ui.settings;
+class Settings {
+    constructor(uuid, instanceId) {
+        this.state = {};
+        this.settings = new AppletSettings(this.state, uuid, instanceId);
+        this.bind_settings();
+    }
+    bind_settings() {
+        this.settings.bindProperty(BindingDirection.IN, 'host', 'host', (arg) => this.on_settings_changed(arg), "");
+        this.settings.bindProperty(BindingDirection.IN, 'port', 'port', (arg) => this.on_settings_changed(arg), "8002");
+        this.settings.bindProperty(BindingDirection.IN, 'name', 'name', (arg) => this.on_settings_changed(arg), "SamsungTvRemote");
+        this.settings.bindProperty(BindingDirection.BIDIRECTIONAL, 'token', 'token', (arg) => this.on_settings_changed(arg), "");
+    }
+    on_settings_changed(arg) {
+        if (typeof this.handle_on_settings_changed === "function") {
+            this.handle_on_settings_changed(arg);
+        }
+    }
+}
+
+;// ./src/main.ts
 const { IconApplet } = imports.ui.applet;
+
 class MainApplet extends IconApplet {
     constructor(metadata, orientation, panelHeight, instanceId) {
         super(orientation, panelHeight, instanceId);
@@ -49,6 +76,7 @@ class MainApplet extends IconApplet {
         this.orientation = orientation;
         this.panelHeight = panelHeight;
         this.instanceId = instanceId;
+        this.settings = new Settings(metadata.uuid, instanceId);
         this.set_applet_icon_name("cs-screen");
         this.set_applet_tooltip('Click here to change the tooltip to "Hello world!"');
     }

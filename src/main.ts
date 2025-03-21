@@ -1,5 +1,6 @@
 const { IconApplet } = imports.ui.applet
-type Metadata = imports.ui.applet.AppletMetadata
+import { Settings } from "settings"
+import type { Metadata } from "types"
 
 export class MainApplet extends IconApplet {
   private metadata: Metadata
@@ -7,6 +8,7 @@ export class MainApplet extends IconApplet {
   private orientation: imports.gi.St.Side
   private panelHeight: number
   private instanceId: number
+  private settings: Settings
 
   constructor(metadata: Metadata, orientation: imports.gi.St.Side, panelHeight: number, instanceId: number) {
     super(orientation, panelHeight, instanceId)
@@ -16,6 +18,7 @@ export class MainApplet extends IconApplet {
     this.orientation = orientation
     this.panelHeight = panelHeight
     this.instanceId = instanceId
+    this.settings = new Settings(metadata.uuid, instanceId)
 
     this.set_applet_icon_name("cs-screen");
     this.set_applet_tooltip('Click here to change the tooltip to "Hello world!"');
@@ -23,7 +26,6 @@ export class MainApplet extends IconApplet {
 
   public override on_applet_clicked(_: imports.gi.Clutter.Event): boolean {
     this.set_applet_tooltip("Hello world!");
-
     return false
   }
 
