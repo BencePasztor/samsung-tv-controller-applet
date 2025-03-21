@@ -9,7 +9,9 @@ type Message = imports.gi.Soup.Message
 /** Options for the WebSocket client */
 export interface WebSocketOptions {
     /** Whether or not the websocket should check the TLS certificate, defaults to true */
-    checkCertificate: boolean,
+    checkCertificate?: boolean,
+    /** Event handler for connect */
+    onConnect?: () => void,
     /** Event handler for close */
     onClose?: () => void,
     /** Event handler for error */
@@ -26,13 +28,14 @@ export enum WebSocketReadyState {
     CLOSED = 3
 }
 
-/** WebSocket client that uses libsoup under the hood. */
+/** WebSocket client */
 export class WebSocket {
     private session: Session
     private connection: WebsocketConnection | null = null
     public readyState: WebSocketReadyState
     private url: string
-    private checkCertificate: WebSocketOptions["checkCertificate"]
+    private checkCertificate: boolean
+    public onConnect: WebSocketOptions["onConnect"]
     public onClose: WebSocketOptions["onClose"]
     public onError: WebSocketOptions["onError"]
     public onMessage: WebSocketOptions["onMessage"]
@@ -47,10 +50,10 @@ export class WebSocket {
         this.readyState = WebSocketReadyState.CONNECTING
         this.url = url
         this.checkCertificate = options?.checkCertificate ?? true
+        this.onConnect = options?.onConnect
         this.onClose = options?.onClose
         this.onError = options?.onError
         this.onMessage = options?.onMessage
-
         this.connect()
     }
 
@@ -70,9 +73,16 @@ export class WebSocket {
         // Establishing connection
         this.session.websocket_connect_async(message, null, [], 1, null, (_, result) => {
             try {
+                global.log('Opening connection...')
                 this.connection = this.session.websocket_connect_finish(result)
                 if (this.connection) {
                     this.readyState = WebSocketReadyState.OPEN
+                    global.log('Connection opened!')
+
+                    // onConnect
+                    if (this.onConnect) {
+                        this.onConnect()
+                    }
                 }
             } catch (error) {
                 global.logError(error)
@@ -83,44 +93,50 @@ export class WebSocket {
                 return
             }
 
-            this.connection.connect('closing', () => {
-                this.readyState = WebSocketReadyState.CLOSING
-                global.log('Closing connection...')
-            })
+            // Connect event handlers
+            this.connectEventHandlers(this.connection)
+        })
+    }
 
-            // onClose
-            this.connection.connect('closed', () => {
-                this.readyState = WebSocketReadyState.CLOSED
-                global.log('Connection closed')
+    /** Connects event handlers with the exception of onConnect. Is called in the connect function. */
+    private connectEventHandlers(connection: WebsocketConnection) {
+        // * closing
+        connection.connect('closing', () => {
+            this.readyState = WebSocketReadyState.CLOSING
+            global.log('Closing connection...')
+        })
 
-                if (this.onClose) {
-                    this.onClose()
-                }
-            })
+        // onClose
+        connection.connect('closed', () => {
+            this.readyState = WebSocketReadyState.CLOSED
+            global.log('Connection closed.')
 
-            // onError
-            this.connection.connect('error', (_, err) => {
-                global.logError(err)
+            if (this.onClose) {
+                this.onClose()
+            }
+        })
 
-                if (this.onError) {
-                    this.onError(err.toString())
-                }
-            })
+        // onError
+        connection.connect('error', (_, err) => {
+            global.logError(err)
 
-            // onMessage
-            this.connection.connect('message', (_, type, data) => {
-                if (type !== WebsocketDataType.TEXT) {
-                    return
-                }
+            if (this.onError) {
+                this.onError(err.toString())
+            }
+        })
 
-                const decoder = new TextDecoder()
-                const str = decoder.decode(data.toArray())
+        // onMessage
+        connection.connect('message', (_, type, data) => {
+            if (type !== WebsocketDataType.TEXT) {
+                return
+            }
 
-                if (this.onMessage) {
-                    this.onMessage(str)
-                }
-            })
+            const decoder = new TextDecoder()
+            const str = decoder.decode(data.toArray())
 
+            if (this.onMessage) {
+                this.onMessage(str)
+            }
         })
     }
 
@@ -130,7 +146,7 @@ export class WebSocket {
      * @throws {Error} - if the connection is not set
      */
     public send(data: string) {
-        if (this.connection) {
+        if (this.connection && this.readyState === WebSocketReadyState.OPEN) {
             this.connection.send_text(data)
         } else {
             throw new Error('WebSocket is not connected')
