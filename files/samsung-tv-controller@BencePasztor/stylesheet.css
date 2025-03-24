@@ -1,0 +1,52 @@
+.remote-menu {
+    padding: 8px;
+    background: #000000
+}
+
+.remote-menu__spacing {
+    padding: 8px;
+}
+
+.remote-menu__button {
+    color: #FFFFFF;
+    background-color: #303030;
+    padding: 8px;
+    border-radius: 4px;
+    transition: ease 0.2s all;
+}
+
+.remote-menu__button:hover {
+    background-color: #242424;
+}
+
+.remote-menu__button.remote-menu__button--red {
+    background-color: #E65A40
+}
+
+.remote-menu__button.remote-menu__button--red:hover {
+    background-color: #c94d37
+}
+
+.remote-menu__button.remote-menu__button--green {
+    background-color: #2A7F4F
+}
+
+.remote-menu__button.remote-menu__button--green:hover {
+    background-color: #216641
+}
+
+.remote-menu__button.remote-menu__button--yellow {
+    background-color: #E6C400
+}
+
+.remote-menu__button.remote-menu__button--yellow:hover {
+    background-color: #cfb001
+}
+
+.remote-menu__button.remote-menu__button--blue {
+    background-color: #1C82E6
+}
+
+.remote-menu__button.remote-menu__button--blue:hover {
+    background-color: #176fc2
+}

@@ -1,0 +1,56 @@
+import { RemoteButton } from "./remote-button"
+import { ControllerKey } from "types"
+
+/** The list of buttons on the controller */
+const BUTTONS = {
+    OFF: new RemoteButton({ key: ControllerKey.POWER, label: "POWER", style_class: 'remote-menu__button--red' }),
+    SOURCE: new RemoteButton({ key: ControllerKey.SOURCE, label: "SOURCE" }),
+    DIGIT_1: new RemoteButton({ key: ControllerKey.D_1, label: "1" }),
+    DIGIT_2: new RemoteButton({ key: ControllerKey.D_2, label: "2" }),
+    DIGIT_3: new RemoteButton({ key: ControllerKey.D_3, label: "3" }),
+    DIGIT_4: new RemoteButton({ key: ControllerKey.D_4, label: "4" }),
+    DIGIT_5: new RemoteButton({ key: ControllerKey.D_5, label: "5" }),
+    DIGIT_6: new RemoteButton({ key: ControllerKey.D_6, label: "6" }),
+    DIGIT_7: new RemoteButton({ key: ControllerKey.D_7, label: "7" }),
+    DIGIT_8: new RemoteButton({ key: ControllerKey.D_8, label: "8" }),
+    DIGIT_9: new RemoteButton({ key: ControllerKey.D_9, label: "9" }),
+    DIGIT_0: new RemoteButton({ key: ControllerKey.D_0, label: "0" }),
+    VOL_UP: new RemoteButton({ key: ControllerKey.VOL_UP, label: "VOL +" }),
+    MUTE: new RemoteButton({ key: ControllerKey.MUTE, label: "MUTE" }),
+    CH_UP: new RemoteButton({ key: ControllerKey.CH_UP, label: "CH +" }),
+    VOL_DOWN: new RemoteButton({ key: ControllerKey.VOL_DOWN, label: "VOL -" }),
+    CH_LIST: new RemoteButton({ key: ControllerKey.CH_LIST, label: "CH LIST" }),
+    CH_DOWN: new RemoteButton({ key: ControllerKey.CH_DOWN, label: "CH -" }),
+    MENU: new RemoteButton({ key: ControllerKey.MENU, label: "MENU" }),
+    HOME: new RemoteButton({ key: ControllerKey.HOME, label: "HOME" }),
+    GUIDE: new RemoteButton({ key: ControllerKey.GUIDE, label: "GUIDE" }),
+    TOOLS: new RemoteButton({ key: ControllerKey.TOOLS, label: "TOOLS" }),
+    UP: new RemoteButton({ key: ControllerKey.UP, label: "▲" }),
+    INFO: new RemoteButton({ key: ControllerKey.INFO, label: "INFO" }),
+    LEFT: new RemoteButton({ key: ControllerKey.LEFT, label: "◄" }),
+    OK: new RemoteButton({ key: ControllerKey.ENTER, label: "ENTER" }),
+    RIGHT: new RemoteButton({ key: ControllerKey.RIGHT, label: "►" }),
+    RETURN: new RemoteButton({ key: ControllerKey.BACK, label: "BACK" }),
+    DOWN: new RemoteButton({ key: ControllerKey.DOWN, label: "▼" }),
+    EXIT: new RemoteButton({ key: ControllerKey.EXIT, label: "EXIT" }),
+    A: new RemoteButton({ key: ControllerKey.RED, label: "A", style_class: 'remote-menu__button--red' }),
+    B: new RemoteButton({ key: ControllerKey.GREEN, label: "B", style_class: 'remote-menu__button--green' }),
+    C: new RemoteButton({ key: ControllerKey.YELLOW, label: "C", style_class: 'remote-menu__button--yellow' }),
+    D: new RemoteButton({ key: ControllerKey.BLUE, label: "D", style_class: 'remote-menu__button--blue' }),
+}
+
+/** The layout of buttons on the remote controller (null is used for spacing) */
+export const BUTTON_LAYOUT: (ReturnType<typeof RemoteButton> | null)[][] = [
+    [BUTTONS.OFF, null, BUTTONS.SOURCE],
+    [BUTTONS.DIGIT_1, BUTTONS.DIGIT_2, BUTTONS.DIGIT_3],
+    [BUTTONS.DIGIT_4, BUTTONS.DIGIT_5, BUTTONS.DIGIT_6],
+    [BUTTONS.DIGIT_7, BUTTONS.DIGIT_8, BUTTONS.DIGIT_9],
+    [null, BUTTONS.DIGIT_0, null],
+    [BUTTONS.VOL_UP, BUTTONS.MUTE, BUTTONS.CH_UP],
+    [BUTTONS.VOL_DOWN, BUTTONS.CH_LIST, BUTTONS.CH_DOWN],
+    [BUTTONS.MENU, BUTTONS.HOME, BUTTONS.GUIDE],
+    [BUTTONS.TOOLS, BUTTONS.UP, BUTTONS.INFO],
+    [BUTTONS.LEFT, BUTTONS.OK, BUTTONS.RIGHT],
+    [BUTTONS.RETURN, BUTTONS.DOWN, BUTTONS.EXIT],
+    [BUTTONS.A, BUTTONS.B, BUTTONS.C, BUTTONS.D],
+]

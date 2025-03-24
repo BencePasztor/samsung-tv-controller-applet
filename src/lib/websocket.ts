@@ -46,7 +46,7 @@ export class WebSocket {
     * @param {WebSocketOptions} options - options for the websocketclient
     */
     constructor(url: string, options?: WebSocketOptions) {
-        this.session = new Session()
+        this.session = new Session({timeout: 30})
         this.readyState = WebSocketReadyState.CONNECTING
         this.url = url
         this.checkCertificate = options?.checkCertificate ?? true

@@ -15,6 +15,8 @@ export class Settings {
     private settings: AppletSettings
     /** The state of settings */
     public state: State = {}
+    /** A boolean that's set to true whenever the settings change (can be set from outside the class, to acknowledge changes) */
+    public changed: boolean = false
     /** A function that's called when the settings change */
     public handleOnSettingsChanged?: (arg?: any) => void
 
@@ -33,6 +35,7 @@ export class Settings {
 
     /** Callback function that's called when the settings change */
     private onSettingsChanged(arg: any) {
+        this.changed = true
         if (typeof this.handleOnSettingsChanged === "function") {
             this.handleOnSettingsChanged(arg)
         }
