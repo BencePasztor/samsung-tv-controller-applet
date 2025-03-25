@@ -3590,6 +3590,7 @@ class Settings {
         this.settings.bindProperty(BindingDirection.IN, 'port', 'port', (arg) => this.onSettingsChanged(arg), "8002");
         this.settings.bindProperty(BindingDirection.IN, 'name', 'name', (arg) => this.onSettingsChanged(arg), "SamsungTvRemote");
         this.settings.bindProperty(BindingDirection.BIDIRECTIONAL, 'token', 'token', (arg) => this.onSettingsChanged(arg), "");
+        this.settings.bindProperty(BindingDirection.IN, 'mac', 'mac', undefined, "");
     }
     onSettingsChanged(arg) {
         this.changed = true;
@@ -3599,16 +3600,16 @@ class Settings {
     }
 }
 
-;// ./src/ui/controller-menu/controller-button.ts
+;// ./src/ui/remote-menu/remote-button.ts
 const St = imports.gi.St;
 const { GObject } = imports.gi;
-const ControllerButton = GObject.registerClass(class ControllerButton extends St.Button {
+const RemoteButton = GObject.registerClass(class RemoteButton extends St.Button {
     constructor(params) {
         const { key, style_class, ...options } = params;
         super(options);
         this.key = key;
         this.set_x_expand(true);
-        this.set_style_class_name(`controller-menu__button ${style_class !== null && style_class !== void 0 ? style_class : ''}`);
+        this.set_style_class_name(`remote-menu__button ${style_class !== null && style_class !== void 0 ? style_class : ''}`);
     }
 });
 
@@ -3651,44 +3652,44 @@ var ControllerKey;
     ControllerKey["D_9"] = "KEY_9";
 })(ControllerKey || (ControllerKey = {}));
 
-;// ./src/ui/controller-menu/controller-layout.ts
+;// ./src/ui/remote-menu/remote-layout.ts
 
 
 const BUTTONS = {
-    OFF: new ControllerButton({ key: ControllerKey.POWER, label: "POWER", style_class: 'controller-menu__button--red' }),
-    SOURCE: new ControllerButton({ key: ControllerKey.SOURCE, label: "SOURCE" }),
-    DIGIT_1: new ControllerButton({ key: ControllerKey.D_1, label: "1" }),
-    DIGIT_2: new ControllerButton({ key: ControllerKey.D_2, label: "2" }),
-    DIGIT_3: new ControllerButton({ key: ControllerKey.D_3, label: "3" }),
-    DIGIT_4: new ControllerButton({ key: ControllerKey.D_4, label: "4" }),
-    DIGIT_5: new ControllerButton({ key: ControllerKey.D_5, label: "5" }),
-    DIGIT_6: new ControllerButton({ key: ControllerKey.D_6, label: "6" }),
-    DIGIT_7: new ControllerButton({ key: ControllerKey.D_7, label: "7" }),
-    DIGIT_8: new ControllerButton({ key: ControllerKey.D_8, label: "8" }),
-    DIGIT_9: new ControllerButton({ key: ControllerKey.D_9, label: "9" }),
-    DIGIT_0: new ControllerButton({ key: ControllerKey.D_0, label: "0" }),
-    VOL_UP: new ControllerButton({ key: ControllerKey.VOL_UP, label: "VOL +" }),
-    MUTE: new ControllerButton({ key: ControllerKey.MUTE, label: "MUTE" }),
-    CH_UP: new ControllerButton({ key: ControllerKey.CH_UP, label: "CH +" }),
-    VOL_DOWN: new ControllerButton({ key: ControllerKey.VOL_DOWN, label: "VOL -" }),
-    CH_LIST: new ControllerButton({ key: ControllerKey.CH_LIST, label: "CH LIST" }),
-    CH_DOWN: new ControllerButton({ key: ControllerKey.CH_DOWN, label: "CH -" }),
-    MENU: new ControllerButton({ key: ControllerKey.MENU, label: "MENU" }),
-    HOME: new ControllerButton({ key: ControllerKey.HOME, label: "HOME" }),
-    GUIDE: new ControllerButton({ key: ControllerKey.GUIDE, label: "GUIDE" }),
-    TOOLS: new ControllerButton({ key: ControllerKey.TOOLS, label: "TOOLS" }),
-    UP: new ControllerButton({ key: ControllerKey.UP, label: "▲" }),
-    INFO: new ControllerButton({ key: ControllerKey.INFO, label: "INFO" }),
-    LEFT: new ControllerButton({ key: ControllerKey.LEFT, label: "◄" }),
-    OK: new ControllerButton({ key: ControllerKey.ENTER, label: "ENTER" }),
-    RIGHT: new ControllerButton({ key: ControllerKey.RIGHT, label: "►" }),
-    RETURN: new ControllerButton({ key: ControllerKey.BACK, label: "BACK" }),
-    DOWN: new ControllerButton({ key: ControllerKey.DOWN, label: "▼" }),
-    EXIT: new ControllerButton({ key: ControllerKey.EXIT, label: "EXIT" }),
-    A: new ControllerButton({ key: ControllerKey.RED, label: "A", style_class: 'controller-menu__button--red' }),
-    B: new ControllerButton({ key: ControllerKey.GREEN, label: "B", style_class: 'controller-menu__button--green' }),
-    C: new ControllerButton({ key: ControllerKey.YELLOW, label: "C", style_class: 'controller-menu__button--yellow' }),
-    D: new ControllerButton({ key: ControllerKey.BLUE, label: "D", style_class: 'controller-menu__button--blue' }),
+    OFF: new RemoteButton({ key: ControllerKey.POWER, label: "OFF", style_class: 'remote-menu__button--red' }),
+    SOURCE: new RemoteButton({ key: ControllerKey.SOURCE, label: "SOURCE" }),
+    DIGIT_1: new RemoteButton({ key: ControllerKey.D_1, label: "1" }),
+    DIGIT_2: new RemoteButton({ key: ControllerKey.D_2, label: "2" }),
+    DIGIT_3: new RemoteButton({ key: ControllerKey.D_3, label: "3" }),
+    DIGIT_4: new RemoteButton({ key: ControllerKey.D_4, label: "4" }),
+    DIGIT_5: new RemoteButton({ key: ControllerKey.D_5, label: "5" }),
+    DIGIT_6: new RemoteButton({ key: ControllerKey.D_6, label: "6" }),
+    DIGIT_7: new RemoteButton({ key: ControllerKey.D_7, label: "7" }),
+    DIGIT_8: new RemoteButton({ key: ControllerKey.D_8, label: "8" }),
+    DIGIT_9: new RemoteButton({ key: ControllerKey.D_9, label: "9" }),
+    DIGIT_0: new RemoteButton({ key: ControllerKey.D_0, label: "0" }),
+    VOL_UP: new RemoteButton({ key: ControllerKey.VOL_UP, label: "VOL +" }),
+    MUTE: new RemoteButton({ key: ControllerKey.MUTE, label: "MUTE" }),
+    CH_UP: new RemoteButton({ key: ControllerKey.CH_UP, label: "CH +" }),
+    VOL_DOWN: new RemoteButton({ key: ControllerKey.VOL_DOWN, label: "VOL -" }),
+    CH_LIST: new RemoteButton({ key: ControllerKey.CH_LIST, label: "CH LIST" }),
+    CH_DOWN: new RemoteButton({ key: ControllerKey.CH_DOWN, label: "CH -" }),
+    MENU: new RemoteButton({ key: ControllerKey.MENU, label: "MENU" }),
+    HOME: new RemoteButton({ key: ControllerKey.HOME, label: "HOME" }),
+    GUIDE: new RemoteButton({ key: ControllerKey.GUIDE, label: "GUIDE" }),
+    TOOLS: new RemoteButton({ key: ControllerKey.TOOLS, label: "TOOLS" }),
+    UP: new RemoteButton({ key: ControllerKey.UP, label: "▲" }),
+    INFO: new RemoteButton({ key: ControllerKey.INFO, label: "INFO" }),
+    LEFT: new RemoteButton({ key: ControllerKey.LEFT, label: "◄" }),
+    OK: new RemoteButton({ key: ControllerKey.ENTER, label: "ENTER" }),
+    RIGHT: new RemoteButton({ key: ControllerKey.RIGHT, label: "►" }),
+    RETURN: new RemoteButton({ key: ControllerKey.BACK, label: "BACK" }),
+    DOWN: new RemoteButton({ key: ControllerKey.DOWN, label: "▼" }),
+    EXIT: new RemoteButton({ key: ControllerKey.EXIT, label: "EXIT" }),
+    A: new RemoteButton({ key: ControllerKey.RED, label: "A", style_class: 'remote-menu__button--red' }),
+    B: new RemoteButton({ key: ControllerKey.GREEN, label: "B", style_class: 'remote-menu__button--green' }),
+    C: new RemoteButton({ key: ControllerKey.YELLOW, label: "C", style_class: 'remote-menu__button--yellow' }),
+    D: new RemoteButton({ key: ControllerKey.BLUE, label: "D", style_class: 'remote-menu__button--blue' }),
 };
 const BUTTON_LAYOUT = [
     [BUTTONS.OFF, null, BUTTONS.SOURCE],
@@ -3705,24 +3706,24 @@ const BUTTON_LAYOUT = [
     [BUTTONS.A, BUTTONS.B, BUTTONS.C, BUTTONS.D],
 ];
 
-;// ./src/ui/controller-menu/controller-menu.ts
+;// ./src/ui/remote-menu/remote-menu.ts
 const { AppletPopupMenu } = imports.ui.applet;
-const controller_menu_St = imports.gi.St;
+const remote_menu_St = imports.gi.St;
 const Clutter = imports.gi.Clutter;
 
-class ControllerMenu extends AppletPopupMenu {
-    constructor(launcher, side, remoteController) {
+class RemoteMenu extends AppletPopupMenu {
+    constructor(launcher, side, controller) {
         super(launcher, side);
-        this.remoteController = remoteController;
+        this.controller = controller;
         this.setupUI();
     }
     setupUI() {
-        const container = new controller_menu_St.Widget({
+        const container = new remote_menu_St.Widget({
             layout_manager: new Clutter.BoxLayout({
                 orientation: Clutter.Orientation.VERTICAL,
                 spacing: 4
             }),
-            style_class: 'controller-menu'
+            style_class: 'remote-menu'
         });
         for (let buttons of BUTTON_LAYOUT) {
             const row = new Clutter.Actor({
@@ -3739,7 +3740,7 @@ class ControllerMenu extends AppletPopupMenu {
                     continue;
                 }
                 button.connect("clicked", () => {
-                    this.remoteController.sendKey(button.key);
+                    this.controller.sendKey(button.key);
                 });
                 row.add_child(button);
             }
@@ -3749,7 +3750,7 @@ class ControllerMenu extends AppletPopupMenu {
     }
 }
 
-;// ./src/ui/controller-menu/index.ts
+;// ./src/ui/remote-menu/index.ts
 
 
 ;// ./src/ui/index.ts
@@ -3859,16 +3860,16 @@ class WebSocket {
     }
 }
 
-;// ./src/remote-controller.ts
+;// ./src/controller.ts
 
-class RemoteController {
+class Controller {
     constructor(settings) {
         this.websocket = null;
         this.settings = settings;
     }
     buildUrl() {
         const { host, port, name, token } = this.settings.state;
-        let url = `wss://${host}:${port}/api/v2/channels/samsung.remote.control?name=${name}`;
+        let url = `wss://${host}:${port}/api/v2/channels/samsung.remote.control?name=${btoa(name !== null && name !== void 0 ? name : "")}`;
         if (token !== "") {
             url = url + `&token=${token}`;
         }
@@ -3920,13 +3921,13 @@ class MainApplet extends IconApplet {
         this.instanceId = instanceId;
         this.settings = new Settings(metadata.uuid, instanceId);
         this.menuManager = new PopupMenuManager(this);
-        this.remoteController = new RemoteController(this.settings);
-        this.controllerMenu = new ControllerMenu(this, this.orientation, this.remoteController);
-        this.menuManager.addMenu(this.controllerMenu);
+        this.controller = new Controller(this.settings);
+        this.remoteMenu = new RemoteMenu(this, this.orientation, this.controller);
+        this.menuManager.addMenu(this.remoteMenu);
         this.set_applet_icon_name("cs-screen");
     }
     on_applet_clicked(_) {
-        this.controllerMenu.toggle();
+        this.remoteMenu.toggle();
         return false;
     }
 }

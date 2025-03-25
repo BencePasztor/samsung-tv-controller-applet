@@ -3,7 +3,7 @@ import { ControllerKey } from "types"
 
 /** The list of buttons on the controller */
 const BUTTONS = {
-    OFF: new RemoteButton({ key: ControllerKey.POWER, label: "POWER", style_class: 'remote-menu__button--red' }),
+    OFF: new RemoteButton({ key: ControllerKey.POWER, label: "OFF", style_class: 'remote-menu__button--red' }),
     SOURCE: new RemoteButton({ key: ControllerKey.SOURCE, label: "SOURCE" }),
     DIGIT_1: new RemoteButton({ key: ControllerKey.D_1, label: "1" }),
     DIGIT_2: new RemoteButton({ key: ControllerKey.D_2, label: "2" }),

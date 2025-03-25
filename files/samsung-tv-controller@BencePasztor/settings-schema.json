@@ -18,7 +18,8 @@
                 "host",
                 "port",
                 "name",
-                "token"
+                "token",
+                "mac"
             ]
         }
     },
@@ -43,5 +44,11 @@
         "type": "entry",
         "default": "",
         "description": "Token"
+    },
+    "mac": {
+        "type": "entry",
+        "default": "",
+        "description": "MAC address",
+        "tooltip": "For waking up the device"
     }
 }

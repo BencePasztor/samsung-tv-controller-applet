@@ -15,8 +15,7 @@ export class Controller {
     private buildUrl(): string {
         const { host, port, name, token } = this.settings.state
 
-        // TODO: encode name!
-        let url = `wss://${host}:${port}/api/v2/channels/samsung.remote.control?name=${name}`
+        let url = `wss://${host}:${port}/api/v2/channels/samsung.remote.control?name=${btoa(name ?? "")}`
 
         if (token !== "") {
             url = url + `&token=${token}`

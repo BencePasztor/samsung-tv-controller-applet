@@ -7,6 +7,7 @@ type State = Partial<{
     readonly port: string,
     readonly name: string,
     token: string
+    readonly mac: string,
 }>
 
 /** Handles the settings of the applet */
@@ -31,6 +32,7 @@ export class Settings {
         this.settings.bindProperty(BindingDirection.IN, 'port', 'port', (arg) => this.onSettingsChanged(arg), "8002");
         this.settings.bindProperty(BindingDirection.IN, 'name', 'name', (arg) => this.onSettingsChanged(arg), "SamsungTvRemote");
         this.settings.bindProperty(BindingDirection.BIDIRECTIONAL, 'token', 'token', (arg) => this.onSettingsChanged(arg), "");
+        this.settings.bindProperty(BindingDirection.IN, 'mac', 'mac', undefined, "");
     }
 
     /** Callback function that's called when the settings change */
