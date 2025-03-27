@@ -8,8 +8,6 @@ export class WakeOnLan {
         socket.set_broadcast(true)
         const address = InetSocketAddress.new_from_string('255.255.255.255', 9)
         const packet = this.createPacket(macAddress)
-        // TODO: Type this!
-        //@ts-ignore
         socket.send_to(address, packet, null)
     }
 
