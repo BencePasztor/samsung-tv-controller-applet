@@ -1,6 +1,7 @@
 const { Session, WebsocketConnection, Message, WebsocketDataType, WebsocketCloseCode } = imports.gi.Soup
 const { UriFlags, Uri } = imports.gi.GLib
 import { TextDecoder } from "@zxing/text-encoding"
+import { Logger } from "utils/logger"
 
 type WebsocketConnection = imports.gi.Soup.WebsocketConnection
 type Session = imports.gi.Soup.Session
@@ -46,7 +47,7 @@ export class WebSocket {
     * @param {WebSocketOptions} options - options for the websocketclient
     */
     constructor(url: string, options?: WebSocketOptions) {
-        this.session = new Session({timeout: 30})
+        this.session = new Session({ timeout: 30 })
         this.readyState = WebSocketReadyState.CONNECTING
         this.url = url
         this.checkCertificate = options?.checkCertificate ?? true
@@ -73,11 +74,11 @@ export class WebSocket {
         // Establishing connection
         this.session.websocket_connect_async(message, null, [], 1, null, (_, result) => {
             try {
-                global.log('Opening connection...')
+                Logger.log('Websocket: Opening connection...')
                 this.connection = this.session.websocket_connect_finish(result)
                 if (this.connection) {
                     this.readyState = WebSocketReadyState.OPEN
-                    global.log('Connection opened!')
+                    Logger.log('Websocket: Connection opened!')
 
                     // onConnect
                     if (this.onConnect) {
@@ -85,7 +86,7 @@ export class WebSocket {
                     }
                 }
             } catch (error) {
-                global.logError(error)
+                Logger.logError('Websocket error: ' + error)
 
                 if (this.onError && error instanceof Error) {
                     this.onError(error.message)
@@ -103,13 +104,13 @@ export class WebSocket {
         // * closing
         connection.connect('closing', () => {
             this.readyState = WebSocketReadyState.CLOSING
-            global.log('Closing connection...')
+            Logger.log('Websocket: Closing connection...')
         })
 
         // onClose
         connection.connect('closed', () => {
             this.readyState = WebSocketReadyState.CLOSED
-            global.log('Connection closed.')
+            Logger.log('Websocket: Connection closed.')
 
             if (this.onClose) {
                 this.onClose()
@@ -118,7 +119,7 @@ export class WebSocket {
 
         // onError
         connection.connect('error', (_, err) => {
-            global.logError(err)
+            Logger.logError('Websocket error: ' + err)
 
             if (this.onError) {
                 this.onError(err.toString())

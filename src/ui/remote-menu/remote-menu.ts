@@ -19,13 +19,14 @@ export class RemoteMenu extends AppletPopupMenu {
 
     /** Sets up the UI of the remote */
     private setupUI() {
+        this.box.set_style_class_name('remote-menu')
+
         // Container for rows
         const container = new St.Widget({
             layout_manager: new Clutter.BoxLayout({
                 orientation: Clutter.Orientation.VERTICAL,
                 spacing: 4
-            }),
-            style_class: 'remote-menu'
+            })
         })
 
         for (let buttons of BUTTON_LAYOUT) {
@@ -41,16 +42,14 @@ export class RemoteMenu extends AppletPopupMenu {
 
             // Add the element to the current row
             for (let button of buttons) {
-                // If the button is null, add spacing instead
+                // Spacing
                 if (button === null) {
                     row.add_child(new Clutter.Actor())
                     continue
                 }
 
-                // Else, add a button
-                button.connect("clicked", () => {
-                    this.controller.sendKey(button.key)
-                })
+                // Button
+                button.setController(this.controller)
                 row.add_child(button)
             }
 

@@ -1,5 +1,6 @@
 import path from "path"
 import webpack from "webpack"
+import CONFIG from "./src/config"
 
 const config: webpack.Configuration = {
   mode: "production",
@@ -8,7 +9,7 @@ const config: webpack.Configuration = {
   },
   output: {
     filename: "main.js",
-    path: path.resolve(__dirname, `files/samsung-tv-controller@BencePasztor/`),
+    path: path.resolve(__dirname, `files/${CONFIG.UUID}/`),
     library: "applet",
   },
   module: {

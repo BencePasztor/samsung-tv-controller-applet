@@ -3603,13 +3603,43 @@ class Settings {
 ;// ./src/ui/remote-menu/remote-button.ts
 const St = imports.gi.St;
 const { GObject } = imports.gi;
-const RemoteButton = GObject.registerClass(class RemoteButton extends St.Button {
+const RemoteKeyButton = GObject.registerClass(class RemoteKeyButton extends St.Button {
     constructor(params) {
-        const { key, style_class, ...options } = params;
+        const { style_class, controller, key, ...options } = params;
         super(options);
+        if (controller) {
+            this.controller = controller;
+        }
         this.key = key;
+        this.connect("clicked", () => {
+            if (this.controller) {
+                this.controller.sendKey(this.key);
+            }
+        });
         this.set_x_expand(true);
         this.set_style_class_name(`remote-menu__button ${style_class !== null && style_class !== void 0 ? style_class : ''}`);
+    }
+    setController(controller) {
+        this.controller = controller;
+    }
+});
+const RemoteWakeButton = GObject.registerClass(class RemoteButtonParams extends St.Button {
+    constructor(params) {
+        const { style_class, controller, ...options } = params;
+        super(options);
+        if (controller) {
+            this.controller = controller;
+        }
+        this.connect("clicked", () => {
+            if (this.controller) {
+                this.controller.wakeUpDevice();
+            }
+        });
+        this.set_x_expand(true);
+        this.set_style_class_name(`remote-menu__button ${style_class !== null && style_class !== void 0 ? style_class : ''}`);
+    }
+    setController(controller) {
+        this.controller = controller;
     }
 });
 
@@ -3656,43 +3686,44 @@ var ControllerKey;
 
 
 const BUTTONS = {
-    OFF: new RemoteButton({ key: ControllerKey.POWER, label: "OFF", style_class: 'remote-menu__button--red' }),
-    SOURCE: new RemoteButton({ key: ControllerKey.SOURCE, label: "SOURCE" }),
-    DIGIT_1: new RemoteButton({ key: ControllerKey.D_1, label: "1" }),
-    DIGIT_2: new RemoteButton({ key: ControllerKey.D_2, label: "2" }),
-    DIGIT_3: new RemoteButton({ key: ControllerKey.D_3, label: "3" }),
-    DIGIT_4: new RemoteButton({ key: ControllerKey.D_4, label: "4" }),
-    DIGIT_5: new RemoteButton({ key: ControllerKey.D_5, label: "5" }),
-    DIGIT_6: new RemoteButton({ key: ControllerKey.D_6, label: "6" }),
-    DIGIT_7: new RemoteButton({ key: ControllerKey.D_7, label: "7" }),
-    DIGIT_8: new RemoteButton({ key: ControllerKey.D_8, label: "8" }),
-    DIGIT_9: new RemoteButton({ key: ControllerKey.D_9, label: "9" }),
-    DIGIT_0: new RemoteButton({ key: ControllerKey.D_0, label: "0" }),
-    VOL_UP: new RemoteButton({ key: ControllerKey.VOL_UP, label: "VOL +" }),
-    MUTE: new RemoteButton({ key: ControllerKey.MUTE, label: "MUTE" }),
-    CH_UP: new RemoteButton({ key: ControllerKey.CH_UP, label: "CH +" }),
-    VOL_DOWN: new RemoteButton({ key: ControllerKey.VOL_DOWN, label: "VOL -" }),
-    CH_LIST: new RemoteButton({ key: ControllerKey.CH_LIST, label: "CH LIST" }),
-    CH_DOWN: new RemoteButton({ key: ControllerKey.CH_DOWN, label: "CH -" }),
-    MENU: new RemoteButton({ key: ControllerKey.MENU, label: "MENU" }),
-    HOME: new RemoteButton({ key: ControllerKey.HOME, label: "HOME" }),
-    GUIDE: new RemoteButton({ key: ControllerKey.GUIDE, label: "GUIDE" }),
-    TOOLS: new RemoteButton({ key: ControllerKey.TOOLS, label: "TOOLS" }),
-    UP: new RemoteButton({ key: ControllerKey.UP, label: "▲" }),
-    INFO: new RemoteButton({ key: ControllerKey.INFO, label: "INFO" }),
-    LEFT: new RemoteButton({ key: ControllerKey.LEFT, label: "◄" }),
-    OK: new RemoteButton({ key: ControllerKey.ENTER, label: "ENTER" }),
-    RIGHT: new RemoteButton({ key: ControllerKey.RIGHT, label: "►" }),
-    RETURN: new RemoteButton({ key: ControllerKey.BACK, label: "BACK" }),
-    DOWN: new RemoteButton({ key: ControllerKey.DOWN, label: "▼" }),
-    EXIT: new RemoteButton({ key: ControllerKey.EXIT, label: "EXIT" }),
-    A: new RemoteButton({ key: ControllerKey.RED, label: "A", style_class: 'remote-menu__button--red' }),
-    B: new RemoteButton({ key: ControllerKey.GREEN, label: "B", style_class: 'remote-menu__button--green' }),
-    C: new RemoteButton({ key: ControllerKey.YELLOW, label: "C", style_class: 'remote-menu__button--yellow' }),
-    D: new RemoteButton({ key: ControllerKey.BLUE, label: "D", style_class: 'remote-menu__button--blue' }),
+    ON: new RemoteWakeButton({ label: "ON", style_class: 'remote-menu__button--green' }),
+    OFF: new RemoteKeyButton({ key: ControllerKey.POWER, label: "OFF", style_class: 'remote-menu__button--red' }),
+    SOURCE: new RemoteKeyButton({ key: ControllerKey.SOURCE, label: "SOURCE" }),
+    DIGIT_1: new RemoteKeyButton({ key: ControllerKey.D_1, label: "1" }),
+    DIGIT_2: new RemoteKeyButton({ key: ControllerKey.D_2, label: "2" }),
+    DIGIT_3: new RemoteKeyButton({ key: ControllerKey.D_3, label: "3" }),
+    DIGIT_4: new RemoteKeyButton({ key: ControllerKey.D_4, label: "4" }),
+    DIGIT_5: new RemoteKeyButton({ key: ControllerKey.D_5, label: "5" }),
+    DIGIT_6: new RemoteKeyButton({ key: ControllerKey.D_6, label: "6" }),
+    DIGIT_7: new RemoteKeyButton({ key: ControllerKey.D_7, label: "7" }),
+    DIGIT_8: new RemoteKeyButton({ key: ControllerKey.D_8, label: "8" }),
+    DIGIT_9: new RemoteKeyButton({ key: ControllerKey.D_9, label: "9" }),
+    DIGIT_0: new RemoteKeyButton({ key: ControllerKey.D_0, label: "0" }),
+    VOL_UP: new RemoteKeyButton({ key: ControllerKey.VOL_UP, label: "VOL +" }),
+    MUTE: new RemoteKeyButton({ key: ControllerKey.MUTE, label: "MUTE" }),
+    CH_UP: new RemoteKeyButton({ key: ControllerKey.CH_UP, label: "CH +" }),
+    VOL_DOWN: new RemoteKeyButton({ key: ControllerKey.VOL_DOWN, label: "VOL -" }),
+    CH_LIST: new RemoteKeyButton({ key: ControllerKey.CH_LIST, label: "CH LIST" }),
+    CH_DOWN: new RemoteKeyButton({ key: ControllerKey.CH_DOWN, label: "CH -" }),
+    MENU: new RemoteKeyButton({ key: ControllerKey.MENU, label: "MENU" }),
+    HOME: new RemoteKeyButton({ key: ControllerKey.HOME, label: "HOME" }),
+    GUIDE: new RemoteKeyButton({ key: ControllerKey.GUIDE, label: "GUIDE" }),
+    TOOLS: new RemoteKeyButton({ key: ControllerKey.TOOLS, label: "TOOLS" }),
+    UP: new RemoteKeyButton({ key: ControllerKey.UP, label: "▲" }),
+    INFO: new RemoteKeyButton({ key: ControllerKey.INFO, label: "INFO" }),
+    LEFT: new RemoteKeyButton({ key: ControllerKey.LEFT, label: "◄" }),
+    OK: new RemoteKeyButton({ key: ControllerKey.ENTER, label: "ENTER" }),
+    RIGHT: new RemoteKeyButton({ key: ControllerKey.RIGHT, label: "►" }),
+    RETURN: new RemoteKeyButton({ key: ControllerKey.BACK, label: "BACK" }),
+    DOWN: new RemoteKeyButton({ key: ControllerKey.DOWN, label: "▼" }),
+    EXIT: new RemoteKeyButton({ key: ControllerKey.EXIT, label: "EXIT" }),
+    A: new RemoteKeyButton({ key: ControllerKey.RED, label: "A", style_class: 'remote-menu__button--red' }),
+    B: new RemoteKeyButton({ key: ControllerKey.GREEN, label: "B", style_class: 'remote-menu__button--green' }),
+    C: new RemoteKeyButton({ key: ControllerKey.YELLOW, label: "C", style_class: 'remote-menu__button--yellow' }),
+    D: new RemoteKeyButton({ key: ControllerKey.BLUE, label: "D", style_class: 'remote-menu__button--blue' }),
 };
 const BUTTON_LAYOUT = [
-    [BUTTONS.OFF, null, BUTTONS.SOURCE],
+    [BUTTONS.ON, BUTTONS.OFF, BUTTONS.SOURCE],
     [BUTTONS.DIGIT_1, BUTTONS.DIGIT_2, BUTTONS.DIGIT_3],
     [BUTTONS.DIGIT_4, BUTTONS.DIGIT_5, BUTTONS.DIGIT_6],
     [BUTTONS.DIGIT_7, BUTTONS.DIGIT_8, BUTTONS.DIGIT_9],
@@ -3718,12 +3749,12 @@ class RemoteMenu extends AppletPopupMenu {
         this.setupUI();
     }
     setupUI() {
+        this.box.set_style_class_name('remote-menu');
         const container = new remote_menu_St.Widget({
             layout_manager: new Clutter.BoxLayout({
                 orientation: Clutter.Orientation.VERTICAL,
                 spacing: 4
-            }),
-            style_class: 'remote-menu'
+            })
         });
         for (let buttons of BUTTON_LAYOUT) {
             const row = new Clutter.Actor({
@@ -3739,9 +3770,7 @@ class RemoteMenu extends AppletPopupMenu {
                     row.add_child(new Clutter.Actor());
                     continue;
                 }
-                button.connect("clicked", () => {
-                    this.controller.sendKey(button.key);
-                });
+                button.setController(this.controller);
                 row.add_child(button);
             }
             container.add_child(row);
@@ -3758,9 +3787,32 @@ class RemoteMenu extends AppletPopupMenu {
 
 // EXTERNAL MODULE: ./node_modules/@zxing/text-encoding/cjs/encoding.js
 var encoding = __webpack_require__(81);
+;// ./src/config.ts
+const CONFIG = {
+    UUID: 'samsung-tv-controller@BencePasztor'
+};
+/* harmony default export */ const config = (CONFIG);
+
+;// ./src/utils/logger.ts
+
+const { UUID } = config;
+class Logger {
+    contructor() { }
+    static log(msg) {
+        global.log(`[${UUID}]: ${msg}`);
+    }
+    static logError(msg) {
+        global.logError(`[${UUID}]: ${msg}`);
+    }
+    static logWarning(msg) {
+        global.logWarning(`[${UUID}]: ${msg}`);
+    }
+}
+
 ;// ./src/lib/websocket.ts
 const { Session, WebsocketConnection, Message, WebsocketDataType, WebsocketCloseCode } = imports.gi.Soup;
 const { UriFlags, Uri } = imports.gi.GLib;
+
 
 var WebSocketReadyState;
 (function (WebSocketReadyState) {
@@ -3795,18 +3847,18 @@ class WebSocket {
         }
         this.session.websocket_connect_async(message, null, [], 1, null, (_, result) => {
             try {
-                global.log('Opening connection...');
+                Logger.log('Websocket: Opening connection...');
                 this.connection = this.session.websocket_connect_finish(result);
                 if (this.connection) {
                     this.readyState = WebSocketReadyState.OPEN;
-                    global.log('Connection opened!');
+                    Logger.log('Websocket: Connection opened!');
                     if (this.onConnect) {
                         this.onConnect();
                     }
                 }
             }
             catch (error) {
-                global.logError(error);
+                Logger.logError('Websocket error: ' + error);
                 if (this.onError && error instanceof Error) {
                     this.onError(error.message);
                 }
@@ -3818,17 +3870,17 @@ class WebSocket {
     connectEventHandlers(connection) {
         connection.connect('closing', () => {
             this.readyState = WebSocketReadyState.CLOSING;
-            global.log('Closing connection...');
+            Logger.log('Websocket: Closing connection...');
         });
         connection.connect('closed', () => {
             this.readyState = WebSocketReadyState.CLOSED;
-            global.log('Connection closed.');
+            Logger.log('Websocket: Connection closed.');
             if (this.onClose) {
                 this.onClose();
             }
         });
         connection.connect('error', (_, err) => {
-            global.logError(err);
+            Logger.logError('Websocket error: ' + err);
             if (this.onError) {
                 this.onError(err.toString());
             }
@@ -3860,7 +3912,38 @@ class WebSocket {
     }
 }
 
+;// ./src/lib/wakeonlan.ts
+const { Socket, SocketFamily, SocketType, SocketProtocol, InetSocketAddress } = imports.gi.Gio;
+class WakeOnLan {
+    static sendMagicPacket(macAddress) {
+        const socket = Socket.new(SocketFamily.IPV4, SocketType.DATAGRAM, SocketProtocol.UDP);
+        socket.set_broadcast(true);
+        const address = InetSocketAddress.new_from_string('255.255.255.255', 9);
+        const packet = this.createPacket(macAddress);
+        socket.send_to(address, packet, null);
+    }
+    static createPacket(macAddress) {
+        macAddress = macAddress.replace(/[:-]/g, '');
+        const magicPacket = new Uint8Array(102);
+        for (let i = 0; i < 6; i++) {
+            magicPacket[i] = 0xFF;
+        }
+        const macArray = [];
+        for (let i = 0; i < macAddress.length; i += 2) {
+            macArray.push(parseInt(macAddress.slice(i, i + 2), 16));
+        }
+        for (let i = 6; i < magicPacket.length; i += 6) {
+            magicPacket.set(macArray, i);
+        }
+        return magicPacket;
+    }
+}
+
 ;// ./src/controller.ts
+const Main = imports.ui.main;
+const { base64_encode } = imports.gi.GLib;
+
+
 
 class Controller {
     constructor(settings) {
@@ -3869,7 +3952,7 @@ class Controller {
     }
     buildUrl() {
         const { host, port, name, token } = this.settings.state;
-        let url = `wss://${host}:${port}/api/v2/channels/samsung.remote.control?name=${btoa(name !== null && name !== void 0 ? name : "")}`;
+        let url = `wss://${host}:${port}/api/v2/channels/samsung.remote.control?name=${base64_encode(name !== null && name !== void 0 ? name : "")}`;
         if (token !== "") {
             url = url + `&token=${token}`;
         }
@@ -3877,10 +3960,25 @@ class Controller {
     }
     connect(callback) {
         if (this.websocket !== null) {
+            Logger.log('Closing previous connection....');
             this.websocket.close();
         }
+        Logger.log('Building URL....');
         const url = this.buildUrl();
-        this.websocket = new WebSocket(url, { onConnect: callback, checkCertificate: false });
+        Logger.log('URL is: ' + url);
+        this.websocket = new WebSocket(url, {
+            checkCertificate: false,
+            onConnect: callback,
+            onMessage: (message) => {
+                var _a;
+                Logger.log('Message recieved: ' + message);
+                const parsedMessage = JSON.parse(message);
+                if ((parsedMessage === null || parsedMessage === void 0 ? void 0 : parsedMessage.event) === 'ms.channel.connect' && ((_a = parsedMessage === null || parsedMessage === void 0 ? void 0 : parsedMessage.data) === null || _a === void 0 ? void 0 : _a.token)) {
+                    Logger.log('Token recieved. Saving to settings.');
+                    this.settings.state.token = parsedMessage.data.token;
+                }
+            }
+        });
     }
     sendKey(key) {
         const data = JSON.stringify({
@@ -3892,15 +3990,39 @@ class Controller {
                 'TypeOfRemote': 'SendRemoteKey'
             }
         });
+        Logger.log('Sending key...');
         if (this.settings.changed || this.websocket === null || this.websocket.readyState !== WebSocketReadyState.OPEN) {
+            Logger.log('Reconnect needed, reason:');
+            if (this.settings.changed) {
+                Logger.log('-settings changed');
+            }
+            if (this.websocket === null) {
+                Logger.log('-websocket was not initialized');
+            }
+            if (this.websocket !== null && this.websocket.readyState !== WebSocketReadyState.OPEN) {
+                Logger.log('-websocket state was: ' + this.websocket.readyState);
+            }
             this.connect(() => {
                 var _a;
+                Logger.log('Controller connected, sending key...');
                 this.settings.changed = false;
                 (_a = this.websocket) === null || _a === void 0 ? void 0 : _a.send(data);
             });
         }
         else if (this.websocket !== null && this.websocket.readyState === WebSocketReadyState.OPEN) {
             this.websocket.send(data);
+        }
+    }
+    wakeUpDevice() {
+        const macAddress = this.settings.state.mac;
+        const macRegex = /^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$/;
+        if (macAddress !== undefined && macRegex.test(macAddress)) {
+            Logger.log('Sending magic packet to device...');
+            WakeOnLan.sendMagicPacket(macAddress);
+        }
+        else {
+            Main.notifyError('Invalid MAC address!', 'The MAC address is invalid or missing. Please provide a valid MAC address in the settings!');
+            Logger.logWarning('Invalid MAC address!');
         }
     }
 }
