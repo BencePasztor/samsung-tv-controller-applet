@@ -43,7 +43,7 @@ export const RemoteKeyButton = GObject.registerClass(class RemoteKeyButton exten
 })
 
 /** A remote button that wakes the device up */
-export const RemoteWakeButton = GObject.registerClass(class RemoteButtonParams extends St.Button {
+export const RemoteWakeButton = GObject.registerClass(class RemoteWakeButton extends St.Button {
     private controller?: Controller
 
     constructor(params: RemoteButtonParams) {

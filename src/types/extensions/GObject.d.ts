@@ -1,3 +1,3 @@
 declare namespace imports.gi.GObject {
-    function registerClass<any>(cls: T): T
+    function registerClass<T>(cls: T): T
 }

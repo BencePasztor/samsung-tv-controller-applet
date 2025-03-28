@@ -3623,7 +3623,7 @@ const RemoteKeyButton = GObject.registerClass(class RemoteKeyButton extends St.B
         this.controller = controller;
     }
 });
-const RemoteWakeButton = GObject.registerClass(class RemoteButtonParams extends St.Button {
+const RemoteWakeButton = GObject.registerClass(class RemoteWakeButton extends St.Button {
     constructor(params) {
         const { style_class, controller, ...options } = params;
         super(options);

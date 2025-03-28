@@ -41,7 +41,7 @@ const BUTTONS = {
 }
 
 /** The layout of buttons on the remote controller (null is used for spacing) */
-export const BUTTON_LAYOUT: (typeof RemoteKeyButton | typeof RemoteWakeButton | null)[][] = [
+export const BUTTON_LAYOUT: (InstanceType<typeof RemoteKeyButton> | InstanceType<typeof RemoteWakeButton> | null)[][] = [
     [BUTTONS.ON, BUTTONS.OFF, BUTTONS.SOURCE],
     [BUTTONS.DIGIT_1, BUTTONS.DIGIT_2, BUTTONS.DIGIT_3],
     [BUTTONS.DIGIT_4, BUTTONS.DIGIT_5, BUTTONS.DIGIT_6],
