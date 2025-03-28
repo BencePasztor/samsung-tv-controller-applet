@@ -2,7 +2,10 @@ const { Socket, SocketFamily, SocketType, SocketProtocol, InetSocketAddress } = 
 
 /** A class that can send magic packets to wake up devices */
 export class WakeOnLan {
-    /** Sends a magic packet to specified mac address */
+    /** 
+     * Sends a magic packet to specified mac address 
+     *  @param {string} macAddress - MAC address
+    */
     static sendMagicPacket(macAddress: string) {
         const socket = Socket.new(SocketFamily.IPV4, SocketType.DATAGRAM, SocketProtocol.UDP,)
         socket.set_broadcast(true)
@@ -11,7 +14,10 @@ export class WakeOnLan {
         socket.send_to(address, packet, null)
     }
 
-    /** Creates a magic packet from the mac address */
+    /** 
+     * Creates a magic packet from the mac address
+     * @param {string} macAddress - MAC address
+     * */
     private static createPacket(macAddress: string) {
         // Remove - and :
         macAddress = macAddress.replace(/[:-]/g, '')
