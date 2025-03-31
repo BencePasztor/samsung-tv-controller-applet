@@ -3952,7 +3952,14 @@ class Controller {
     }
     buildUrl() {
         const { host, port, name, token } = this.settings.state;
-        let url = `wss://${host}:${port}/api/v2/channels/samsung.remote.control?name=${base64_encode(name !== null && name !== void 0 ? name : "")}`;
+        const ipPort = `${host}:${port}`;
+        const ipPortRegex = /^(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)\.){3}(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d):([0-9]{1,5})$/;
+        if (!ipPortRegex.test(ipPort)) {
+            Main.notifyError('Invalid MAC address!', 'The IP address or port is invalid or missing. Please provide a valid address in the settings!');
+            Logger.logWarning('Invalid IP or port!');
+            return null;
+        }
+        let url = `wss://${host}:${port}/api/v2/channels/samsung.remote.control?name=${base64_encode(name !== null && name !== void 0 ? name : "SamsungTvRemote")}`;
         if (token !== "") {
             url = url + `&token=${token}`;
         }
@@ -3965,6 +3972,9 @@ class Controller {
         }
         Logger.log('Building URL....');
         const url = this.buildUrl();
+        if (url === null) {
+            return;
+        }
         Logger.log('URL is: ' + url);
         this.websocket = new WebSocket(url, {
             checkCertificate: false,

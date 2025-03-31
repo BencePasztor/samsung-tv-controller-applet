@@ -1,8 +1,7 @@
 {
     "uuid": "samsung-tv-controller@BencePasztor",
-    "name": "Remote Control applet",
-    "description": "A simple applet really",
+    "name": "Remote Control Applet",
+    "description": "An applet that let's you control your Samsung TV.",
     "version": "1.0",
-    "max-instances": 1,
-    "icon": "birdie"
+    "max-instances": 1
   }

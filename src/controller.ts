@@ -15,11 +15,20 @@ export class Controller {
         this.settings = settings
     }
 
-    /** Returns the websocket url */
-    private buildUrl(): string {
+    /** Returns the websocket url or null on error */
+    private buildUrl(): string | null {
         const { host, port, name, token } = this.settings.state
 
-        let url = `wss://${host}:${port}/api/v2/channels/samsung.remote.control?name=${base64_encode(name ?? "")}`
+        // Show a warning to the user if the address is not valid
+        const ipPort = `${host}:${port}`
+        const ipPortRegex = /^(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)\.){3}(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d):([0-9]{1,5})$/
+        if (!ipPortRegex.test(ipPort)) {
+            Main.notifyError('Invalid MAC address!', 'The IP address or port is invalid or missing. Please provide a valid address in the settings!')
+            Logger.logWarning('Invalid IP or port!')
+            return null
+        }
+
+        let url = `wss://${host}:${port}/api/v2/channels/samsung.remote.control?name=${base64_encode(name ?? "SamsungTvRemote")}`
         if (token !== "") {
             url = url + `&token=${token}`
         }
@@ -39,6 +48,9 @@ export class Controller {
 
         Logger.log('Building URL....')
         const url = this.buildUrl()
+        if (url === null) {
+            return
+        }
         Logger.log('URL is: ' + url)
 
         this.websocket = new WebSocket(url, {
@@ -76,15 +88,15 @@ export class Controller {
         if (this.settings.changed || this.websocket === null || this.websocket.readyState !== WebSocketReadyState.OPEN) {
             Logger.log('Reconnect needed, reason:')
 
-            if(this.settings.changed){
+            if (this.settings.changed) {
                 Logger.log('-settings changed')
             }
 
-            if(this.websocket === null){
+            if (this.websocket === null) {
                 Logger.log('-websocket was not initialized')
             }
 
-            if(this.websocket !== null && this.websocket.readyState !== WebSocketReadyState.OPEN){
+            if (this.websocket !== null && this.websocket.readyState !== WebSocketReadyState.OPEN) {
                 Logger.log('-websocket state was: ' + this.websocket.readyState)
             }
 
