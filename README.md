@@ -1,8 +1,8 @@
 # Samsung TV Controller Applet
 ## Description
 This is a Linux Mint/Cinnamon applet that lets you control certain Samsung TVs using a Websocket API and Wakeonlan.
-![Screenshot from 2025-03-31 20-30-23](https://github.com/user-attachments/assets/30d82d11-3957-46ba-8876-d1b22ae0d9b8)
 
+![Screenshot from 2025-03-31 20-30-23](https://github.com/user-attachments/assets/30d82d11-3957-46ba-8876-d1b22ae0d9b8)
 
 https://github.com/user-attachments/assets/207e2e11-75fd-4c5f-9504-8da2899c9976
 
